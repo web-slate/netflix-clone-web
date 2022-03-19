@@ -1,2 +1,8 @@
-# netflix-clone-web
-Netflix Clone Web Repo
+<div align="right">
+    <b><a href="https://github.com/web-slate/netflix-clone-hub/">↥ Back to Netflix Clone Hub</a></b>
+</div>
+
+# Netflix Clone Web Repo
+
+
+## Out of Scope
