@@ -1,10 +1,10 @@
 const webpack = require('webpack')
 const path = require('path')
-const PACKAGE = require('./package.json')
 
 // WebPack Plugins.
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
+const PACKAGE = require('./package.json')
 
 const isProduction =
   process.argv[process.argv.indexOf('--mode') + 1] === 'production'
@@ -13,6 +13,19 @@ module.exports = {
   entry: './src/index.js',
   module: {
     rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: true,
+            },
+          },
+        ],
+      },
       {
         test: /.(js)$/,
         exclude: [/node_modules/],
@@ -35,14 +48,12 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js'],
     alias: {
-      '@netflix-clone/images': path.resolve(
-        __dirname,
-        'src',
-        'static',
-        'assets',
-        'images'
-      ),
-      '@netflix-clone/components': path.resolve(__dirname, 'src', 'components'),
+      '@/i18n': path.resolve(__dirname, 'src', 'i18n'),
+      '@/images': path.resolve(__dirname, 'src', 'static', 'assets', 'images'),
+      '@/ui': path.resolve(__dirname, 'src', 'components', 'ui'),
+      '@/blocks': path.resolve(__dirname, 'src', 'components', 'blocks'),
+      '@/hooks': path.resolve(__dirname, 'src', 'hooks'),
+      '@/utils': path.resolve(__dirname, 'src', 'utils'),
     },
   },
   output: {
@@ -68,7 +79,13 @@ module.exports = {
 
     // Copy all Assets, Icons to public Folder.
     new CopyPlugin({
-      patterns: [{ from: './src/static/images', to: 'images' }],
+      patterns: [
+        { from: './src/static/images', to: 'images' },
+        {
+          from: './src/static/translations/en.json',
+          to: 'translations/en.json',
+        },
+      ],
     }),
   ],
   devServer: {
