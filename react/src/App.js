@@ -1,16 +1,25 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 
-// Components.
-import { ErrorHandler } from '@netflix-clone/components'
+import Routes from './Routes'
+
+// Block Components.
+import { ErrorHandler, PageLoader } from '@/blocks'
+
+import { withTranslation } from '@/i18n'
+
+const browserHistory = createBrowserHistory()
 
 function App() {
   return (
-    <>
       <ErrorHandler>
-        <h1>Welcome to React Chef Slim App</h1>
+        <PageLoader />
+        <Router history={browserHistory} basename="/netflix-clone-web/react">
+          <Routes />
+        </Router>
       </ErrorHandler>
-    </>
   )
 }
 
-export default App
+export default withTranslation(App)
